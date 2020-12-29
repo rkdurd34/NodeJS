@@ -1,5 +1,5 @@
 const http = require('http')
-const { getProducts, getProduct, createProduct, updateProduct } = require('./controllers/productController')
+const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('./controllers/productController')
 
 const server = http.createServer(function (req, res) {
   if (req.url === '/api/products' && req.method === "GET") {
@@ -13,8 +13,10 @@ const server = http.createServer(function (req, res) {
   } else if (req.url.match(/\/api\/products\/([0-9]+)/) && req.method === "PUT") {
     const id = req.url.split('/')[3]
     updateProduct(req, res, id)
-  }
-  else {
+  } else if (req.url.match(/\/api\/products\/([0-9]+)/) && req.method === "DELETE") {
+    const id = req.url.split('/')[3]
+    deleteProduct(req, res, id)
+  } else {
     // 404 page not found 처리 
     res.writeHead(404, { 'Content-Type': 'text/html' })
     res.end(JSON.stringify({ message: "Route Not Founnd " }))

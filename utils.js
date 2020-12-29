@@ -15,9 +15,7 @@ function getPostData(req) {
 
       req.on('data', (chunk) => {
         body += chunk.toString()
-      })
-
-      req.on('end', () => {
+      }).on('end', () => {
         resolve(body)
       })
     } catch (error) {

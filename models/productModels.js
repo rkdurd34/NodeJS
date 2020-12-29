@@ -1,44 +1,54 @@
 const products = require("../data/products")
-const { v4: uuidv4 } =require('uuid')
+const { v4: uuidv4 } = require('uuid')
 const { writeDataToFile } = require('../utils')
 
-function findAll(){
-  return new Promise ((resolve, reject)=>{
+function findAll() {
+  return new Promise((resolve, reject) => {
     resolve(products)
   })
 }
 
-function findById(id){
-  return new Promise ((resolve, reject)=>{
-    const product = products.find((p)=>p.id === id)
+function findById(id) {
+  return new Promise((resolve, reject) => {
+    const product = products.find((p) => p.id === id)
     resolve(product)
-    console.log('여긴잘온거야 ')
   })
 }
 
-function create(product){
-  return new Promise ((resolve, reject)=>{
-    const newProduct = { id: uuidv4(),  ...product}
+function create(product) {
+  return new Promise((resolve, reject) => {
+    const newProduct = { id: uuidv4(), ...product }
     products.push(newProduct)
-    writeDataToFile('./data/products.json',products)
+    writeDataToFile('./data/products.json', products)
     resolve(newProduct)
   })
 }
 
-function update(id, product){
-  return new Promise ((resolve, reject)=>{
-    const index = products.findIndex((p)=> p.id == id)
-    products[index] = {id, ...product}
-    writeDataToFile('./data/products.json',products)
+function update(id, product) {
+  return new Promise((resolve, reject) => {
+    const index = products.findIndex((p) => p.id == id)
+    products[index] = { id, ...product }
+    writeDataToFile('./data/products.json', products)
     resolve(products[index])
   })
 }
 
+function remove(id, product) {
+  return new Promise((resolve, reject) => {
+    const selectedIndex = products.findIndex((p) => p.id == id)
+    const deletedProduct = products[selectedIndex]
+    const revisedProducts = products.filter((product, index) => index != selectedIndex)
+    writeDataToFile('./data/products.json', revisedProducts)
+    resolve(deletedProduct)
+
+  })
+}
 
 
 module.exports = {
   findAll,
   findById,
   create,
-  update
+  update,
+  remove
 }
