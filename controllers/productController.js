@@ -6,12 +6,22 @@ const { getPostData } = require('../utils')
 async function getProducts(req, res) {
   try {
     const products = await Product.findAll()
-
     res.writeHead(200, { 'Content-Type': 'application/json' })
     res.end(JSON.stringify(products))
   } catch (error) {
     console.log(error)
   }
+  // try {
+  //   let products = ""
+  //   Product.findAll()
+  //     .then(function hooah(result) {
+  //       products = result
+  //       res.writeHead(200, { 'Content-Type': 'application/json' })
+  //       res.end(JSON.stringify(products))
+  //     })
+  // } catch (error) {
+  //   console.log(error)
+  // }
 };
 
 // @desc Gets Single products
@@ -38,24 +48,18 @@ async function getProduct(req, res, id) {
 // @route POST /api/products
 async function createProduct(req, res) {
   try {
-    console.log(req)
-
     const body = await getPostData(req);
-    console.log(body)
-    const { title, description, price } = JSON.parse(body)
+    const { name, description, price } = JSON.parse(body)
 
     const product = {
-      title,
+      name,
       description,
       price
     }
 
     const newProduct = await Product.create(product)
     res.writeHead(201, { 'Content-Type': 'application/json' })
-    console.log(res)
     return res.end(JSON.stringify(newProduct))
-
-
   } catch (error) {
     console.log(error)
   }

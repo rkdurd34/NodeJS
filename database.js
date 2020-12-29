@@ -1,5 +1,5 @@
 
-const mysql = require('mysql2')
+const mysql = require('mysql2/promise')
 
 const pool = mysql.createPool({
   host: 'localhost',
@@ -7,11 +7,8 @@ const pool = mysql.createPool({
   password: 'password',
   database: "db_test"
 });
+// mysql2/promise를 사용할경우 이거는 필요없음!
+// const promisePool = pool.promise()
 
-const promisePool = pool.promise()
-// async function test() {
-//   const result = await promisePool.query('select * from product')
-//   await pool.end()
-// }
-// test()
-module.exports = promisePool
+module.exports = pool
+

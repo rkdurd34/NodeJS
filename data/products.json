@@ -1,1 +1,68 @@
-[{"id":"1","name":"Airpods Wireless Bluetooth Headphones","description":"Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working","price":89.99},{"id":"2","name":"iPhone 11 Pro 256GB Memory","description":"Introducing the iPhone 11 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life","price":599.99},{"id":"3","name":"Cannon EOS 80D DSLR Camera","description":"Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design","price":929},{"id":"4","name":"Sony Playstation 4 Pro White Version","description":"The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, music","price":399},{"id":"5","name":"Logitech G-Series Gaming Mouse","description":"Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience","price":49},{"id":"5fab63e6-a673-4076-ac71-74843b566666","title":"KANG","description":"asdasd","price":599},{"id":"0a455898-d625-450e-93b5-a834f380b0d0","title":"KANG","description":"asdasd","price":599},{"id":"9f67ead8-90e5-4f4f-9718-cad437893323","title":"KANG","description":"asdasd","price":599},{"id":"7668331e-7718-4428-ade1-b6e904c8bf66","title":"KANG","description":"asdasd","price":599},{"id":"8c37ca1c-f4bf-4e4f-b9fb-dd7e60d4063c","title":"KANG","description":"asdasd","price":599},{"id":"8469506a-d1d3-42ed-bcb1-9fcafa1f0eff","title":"KANG","description":"asdasd","price":599}]
+[
+  {
+    "id": "1",
+    "name": "Airpods Wireless Bluetooth Headphones",
+    "description": "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working",
+    "price": 89.99
+  },
+  {
+    "id": "2",
+    "name": "iPhone 11 Pro 256GB Memory",
+    "description": "Introducing the iPhone 11 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life",
+    "price": 599.99
+  },
+  {
+    "id": "3",
+    "name": "Cannon EOS 80D DSLR Camera",
+    "description": "Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design",
+    "price": 929
+  },
+  {
+    "id": "4",
+    "name": "Sony Playstation 4 Pro White Version",
+    "description": "The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, music",
+    "price": 399
+  },
+  {
+    "id": "5",
+    "name": "Logitech G-Series Gaming Mouse",
+    "description": "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience",
+    "price": 49
+  },
+  {
+    "id": "5fab63e6-a673-4076-ac71-74843b566666",
+    "title": "KANG",
+    "description": "asdasd",
+    "price": 599
+  },
+  {
+    "id": "0a455898-d625-450e-93b5-a834f380b0d0",
+    "title": "KANG",
+    "description": "asdasd",
+    "price": 599
+  },
+  {
+    "id": "9f67ead8-90e5-4f4f-9718-cad437893323",
+    "title": "KANG",
+    "description": "asdasd",
+    "price": 599
+  },
+  {
+    "id": "7668331e-7718-4428-ade1-b6e904c8bf66",
+    "title": "KANG",
+    "description": "asdasd",
+    "price": 599
+  },
+  {
+    "id": "8c37ca1c-f4bf-4e4f-b9fb-dd7e60d4063c",
+    "title": "KANG",
+    "description": "asdasd",
+    "price": 599
+  },
+  {
+    "id": "8469506a-d1d3-42ed-bcb1-9fcafa1f0eff",
+    "title": "KANG",
+    "description": "asdasd",
+    "price": 599
+  }
+]
