@@ -1,5 +1,6 @@
 const http = require('http')
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('./controllers/productController')
+const db = require('./database')
 
 const server = http.createServer(function (req, res) {
   if (req.url === '/api/products' && req.method === "GET") {

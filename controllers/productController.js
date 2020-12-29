@@ -19,6 +19,7 @@ async function getProducts(req, res) {
 async function getProduct(req, res, id) {
   try {
     const products = await Product.findById(id)
+
     if (!products) {
       res.writeHead(404, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ message: "Product Not Found " }))
@@ -37,6 +38,7 @@ async function getProduct(req, res, id) {
 // @route POST /api/products
 async function createProduct(req, res) {
   try {
+    console.log(req)
 
     const body = await getPostData(req);
     console.log(body)
@@ -50,6 +52,7 @@ async function createProduct(req, res) {
 
     const newProduct = await Product.create(product)
     res.writeHead(201, { 'Content-Type': 'application/json' })
+    console.log(res)
     return res.end(JSON.stringify(newProduct))
 
 
