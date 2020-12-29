@@ -27,24 +27,15 @@ async function create(product) {
   return result
 }
 
-function update(id, product) {
-  return new Promise((resolve, reject) => {
-    const index = products.findIndex((p) => p.id == id)
-    products[index] = { id, ...product }
-    writeDataToFile('./data/products.json', products)
-    resolve(products[index])
-  })
+async function update(id, product) {
+  const { name, description, price } = product
+  const [result] = await db.query('UPDATE `products` SET name = ?, description = ?, price = ? WHERE id = ?', [name, description, price, id])
+  return result
 }
 
-function remove(id, product) {
-  return new Promise((resolve, reject) => {
-    const selectedIndex = products.findIndex((p) => p.id == id)
-    const deletedProduct = products[selectedIndex]
-    const revisedProducts = products.filter((product, index) => index != selectedIndex)
-    writeDataToFile('./data/products.json', revisedProducts)
-    resolve(deletedProduct)
-
-  })
+async function remove(id, product) {
+  const [result] = await db.query('DELETE FROM `products` where id = ?', [id])
+  return result
 }
 
 
