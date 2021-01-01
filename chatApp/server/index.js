@@ -37,14 +37,18 @@ io.on('connection', (socket) => {
   //user generated ('message')  on!!!-> 기다리는것 front에서 emit을 기다림 
   // on은항상 콜백을 받음
   socket.on('sendMessage', (message, callback) => {
+
     const user = getUser(socket.id)
     console.log(user)
     //decide which room to send what message after recognize who the message from
+
     io.to(user.room).emit('message', { user: user.name, text: message })
     callback()
+
   })
   socket.on('disconnect', () => {
     removeUser(socket.id)
+
   })
 })
 
