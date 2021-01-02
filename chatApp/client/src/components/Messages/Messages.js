@@ -12,4 +12,4 @@ const Messages = ({ messages, name }) => (
   </ScrollToBottom>
 );
 
-export default Messages;
+export default React.memo(Messages);
