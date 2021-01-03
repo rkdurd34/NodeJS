@@ -42,7 +42,7 @@ module.exports = {
   },
   getUsers: (callBack) => {
     db.query(
-      'select id, firstname, lastname,email, password from registration',
+      'select id, firstname, lastname,email from registeration',
       [],
       (error, results, fields) => {
         if (error) {
@@ -54,19 +54,19 @@ module.exports = {
   },
   getUserByUserId: (id, callBack) => {
     db.query(
-      'select id, firstname,lastname,gender,email, password,number from registration where id = ?',
+      'select id, firstname,lastname,gender,email, password,number from registeration where id = ?',
       [id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
         }
-        return callBack(null, results[0])
+        return callBack(null, results)
       }
     )
   },
   updateUser: (data, callBack) => {
     db.query(
-      'update reigsteration set firstname = ?, lastName = ?, gender = ?, email = ?, password = ?, number = ? where id = ?',
+      'update registeration set firstname = ?, lastName = ?, gender = ?, email = ?, password = ?, number = ? where id = ?',
       [
         data.firstName,
         data.lastName,
@@ -85,16 +85,29 @@ module.exports = {
     )
   },
   deleteUser: (data, callBack) => {
-    db.quert(
-      'delete from registration where id = ?',
+    db.query(
+      'delete from registeration where id = ?',
       [data.id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
         }
-        return callBack(null, results[0])
+        return callBack(null, results.affectedRows)
       }
 
     )
+  },
+  getUserByUserEmail: (email, callBack) => {
+    db.query(
+      `select * from registeration where email = ?`,
+      [email],
+      (error, results, field) => {
+        if (error) {
+          callBack(error);
+        }
+        console.log(results[0].password.toString('utf8'))
+        return callBack(null, results[0])
+      }
+    )
   }
- }
+}
