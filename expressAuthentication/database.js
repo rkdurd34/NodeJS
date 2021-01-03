@@ -1,5 +1,5 @@
 require('dotenv').config()
-const mysql = require('mysql2/promise')
+const mysql = require('mysql2')
 
 
 const db = mysql.createPool(
@@ -12,6 +12,4 @@ const db = mysql.createPool(
   }
 );
 
-module.exports = {
-  db
-}
+module.exports = db

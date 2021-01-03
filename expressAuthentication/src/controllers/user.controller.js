@@ -1,4 +1,5 @@
 const { genSaltSync, hashSync } = require('bcrypt');
+
 const { create } = require('../service/user.service')
 
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt)
     create(body, (err, results) => {
+      console.log('왜안오지');
       if (err) {
         console.log(err);
         return res.status(500).json({
@@ -19,6 +21,7 @@ module.exports = {
         data: results
       })
     })
-  }
+  },
+
 }
 
