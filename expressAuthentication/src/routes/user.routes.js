@@ -2,10 +2,10 @@ const express = require('express')
 const router = express.Router()
 
 const userController = require('../controllers/user.controller');
-const { checkToken } = require('../middlewares/user.middleware')
+const { checkToken } = require('../middlewares/auth.middleware')
 
 router.route('')
-  .post(checkToken, userController.createUser)
+  .post(userController.createUser)
   .get(checkToken, userController.getUsers)
   .put(checkToken, userController.updateUser)
 router.route('/:id')

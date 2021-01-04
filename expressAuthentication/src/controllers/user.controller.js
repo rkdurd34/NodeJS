@@ -130,6 +130,37 @@ module.exports = {
         })
       }
     })
-  }
+  },
+  login: (req, res) => {
+    const body = req.body
+    getUserByUserEmail(body.email, (err, results) => {
+      if (err) {
+        console.log(err)
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          data: 'invalid email or password'
+        })
+      }
+      const result = compareSync(body.password, results.password.toString('utf8'))
+      if (result) {
+        results.password = undefined;
+        const jsontoken = sign({ result: results }, process.env.ACCESS_SECRET_KEY, {
+          expiresIn: "1h"
+        })
+        return res.json({
+          success: 1,
+          message: "login successfully",
+          token: jsontoken
+        });
+      } else {
+        return res.json({
+          success: 0,
+          data: "invalid email or password"
+        })
+      }
+    })
+  },
 
 }
