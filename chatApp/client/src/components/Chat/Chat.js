@@ -29,7 +29,7 @@ const Chat = ({ location }) => {
       transports: ['websocket'],
       path: '/chatSocket'
     });
-
+    socket.emit('connection',{ })
     setRoom(room);
     setName(name)
     socket.emit('join', { name, room }, () => {
@@ -49,14 +49,10 @@ const Chat = ({ location }) => {
   useEffect(() => {
     socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
-
     });
-
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-
-
   }, []);
 
   const sendMessage = (event) => {

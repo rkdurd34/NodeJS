@@ -1,27 +1,31 @@
 const { genSaltSync, hashSync, compareSync } = require('bcrypt');
 const { signAccessToken, signRefreshToken } = require('../middlewares/auth.middleware')
-const { getUserByUserEmail, create } = require('../service/auth.service')
+const { getUserByUserEmail, create } = require('../services/auth.services')
 
 const createError = require('http-errors')
 require('dotenv').config()
 
 module.exports = {
   login: async (req, res) => {
+
     const body = req.body
     getUserByUserEmail(body.email, async (err, results) => {
       if (err) {
         console.log(err)
       }
       if (!results) {
-        return res.json({
+        return res.status(409).json({
           success: 0,
           data: 'invalid email or password'
         })
       }
+
       const result = compareSync(body.password, results.password.toString('utf8'))
       if (result) {
         const accessToken = await signAccessToken(req.body.email)
         const refreshToken = await signRefreshToken(req.body.email)
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 60 * 60 * 24 * 365 })
+        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 5000 })
         return res.json({
           success: 1,
           message: "login successfully",
@@ -29,7 +33,7 @@ module.exports = {
           refreshToken
         });
       } else {
-        return res.json({
+        return res.status(409).json({
           success: 0,
           data: "invalid email or password"
         })
@@ -55,8 +59,7 @@ module.exports = {
         }
         const accessToken = await signAccessToken(req.body.email)
         const refreshToken = await signRefreshToken(req.body.email)
-        res.cookie('accessToken', accessToken, { httpOnly: true });
-        res.cookie('refreshToken', refreshToken, { httpOnly: true });
+
         return res.status(200).json({
           success: 1,
           message: 'created successfully',
