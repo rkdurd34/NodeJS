@@ -3,7 +3,7 @@ const createError = require('http-errors')
 require('dotenv').config()
 module.exports = {
   checkToken: (req, res, next) => {
-    let token = req.get('authorization')
+    let token = req.get('authorization') || req.cookies.accessToken
     // req.headers['authorization] 으로 가져오는 방법도 있음
     token = req.cookies.accessToken
     if (token) {
@@ -24,7 +24,7 @@ module.exports = {
           //   message: "Invalid Token"
           // })
         } else {
-          console.log('token 통과~')
+          
           next()
         }
       })
@@ -35,7 +35,7 @@ module.exports = {
       })
     }
   },
-  signAccessToken: (userId) => {
+  signAccessToken: (userEmail) => {
     return new Promise((resolve, reject) => {
       const payload = {
       }
@@ -43,7 +43,7 @@ module.exports = {
       const options = {
         expiresIn: "1d",
         issuer: 'kang',
-        audience: userId
+        audience: userEmail
       }
       jwt.sign(payload, secret, options, (err, token) => {
         if (err) {

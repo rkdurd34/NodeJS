@@ -52,7 +52,7 @@ const Chat = ({ location }) => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-    const result = api.test(document.cookie)
+    // const result = api.test(document.cookie)
   }, []);
 
   const sendMessage = (event) => {

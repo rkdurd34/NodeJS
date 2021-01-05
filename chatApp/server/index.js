@@ -5,7 +5,7 @@ const http = require('http');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const proxy = require('http-proxy-middleware');
+
 
 const app = express()
 
@@ -18,8 +18,8 @@ app.use(morgan('dev'))
 
 
 
-const io = socketio(server, { path: '/chatSocket' });
-const ioHandler = require('./services/chat.services').ioHandle(io)
+// const io = socketio(server, { path: '/chatSocket' });
+const ioHandler = require('./services/chat.services').ioHandle(socketio(server, { path: '/chatSocket' }))
 
 const authRoutes = require('./routes/auth.routes')
 app.use('/api/auth', authRoutes)

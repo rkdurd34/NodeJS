@@ -1,6 +1,9 @@
 
 const { addUser, removeUser, getUser, getUserInRoom, getUsersInRoom } = require('./user.services')
-var cookie = require('cookie');
+const cookie = require('cookie');
+const socketioJwt = require('socketio-jwt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 module.exports = {
   ioHandle: (io) => {
@@ -17,11 +20,13 @@ module.exports = {
         io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })
         callback()
       })
-      socket.on('sendMessage', (message, callback) => {
-        console.log(cookie.parse(socket.request.headers.cookie), message)
+      socket.on('sendMessage', async (message, callback) => {
+        // let parsed_cookie = cookie.parse(socket.request.headers.cookie).accessToken
+        // decodeJWT = await jwt.verify(parsed_cookie, process.env.ACCESS_SECRET_KEY)
         const user = getUser(socket.id)
         io.to(user.room).emit('message', { user: user.name, text: message })
         io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })
+
         callback()
       })
       socket.on('disconnect', () => {

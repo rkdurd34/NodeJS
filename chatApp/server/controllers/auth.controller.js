@@ -23,7 +23,6 @@ module.exports = {
           data: 'invalid email or password'
         })
       }
-
       const result = compareSync(body.password, results.password.toString('utf8'))
       if (result) {
         const accessToken = await signAccessToken(req.body.email)
@@ -87,6 +86,8 @@ module.exports = {
 
       const newAccessToken = await signAccessToken(userEmail)
       const newRefreshToken = await signRefreshToken(userEmail)
+      res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 60 * 60 * 24 * 365 })
+      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 60 * 60 * 24 * 365 })
       res.send({ newAccessToken, newRefreshToken })
     } catch (err) {
 
