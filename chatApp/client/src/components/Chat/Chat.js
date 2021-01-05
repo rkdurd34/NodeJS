@@ -6,8 +6,8 @@ import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
-
 import './Chat.css';
+import api from '../../api'
 
 
 
@@ -21,7 +21,6 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]);
 
   const ENDPOINT = "localhost:5000";
-
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
 
@@ -29,7 +28,7 @@ const Chat = ({ location }) => {
       transports: ['websocket'],
       path: '/chatSocket'
     });
-    socket.emit('connection',{ })
+    socket.emit('connection', {})
     setRoom(room);
     setName(name)
     socket.emit('join', { name, room }, () => {
@@ -45,7 +44,7 @@ const Chat = ({ location }) => {
 
     }
   }, [ENDPOINT, location.search]);
-
+  console.log(messages)
   useEffect(() => {
     socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
@@ -53,6 +52,7 @@ const Chat = ({ location }) => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
+    const result = api.test(document.cookie)
   }, []);
 
   const sendMessage = (event) => {

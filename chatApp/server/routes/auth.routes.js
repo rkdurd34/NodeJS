@@ -3,7 +3,8 @@ const router = express.Router()
 
 const authController = require('../controllers/auth.controller');
 const { checkToken } = require('../middlewares/auth.middleware')
-
+router.route('/test')
+  .get(checkToken, authController.test)
 router.route('/login')
   .post(authController.login)
 router.route('/logout')

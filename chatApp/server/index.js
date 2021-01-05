@@ -11,14 +11,18 @@ const app = express()
 
 const server = http.createServer(app);
 app.use(cors({ credentials: true, origin: true }))
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser())
 app.use(morgan('dev'))
-const authRoutes = require('./routes/auth.routes')
-app.use('/api/auth', authRoutes)
+
+
+
 const io = socketio(server, { path: '/chatSocket' });
 const ioHandler = require('./services/chat.services').ioHandle(io)
+
+const authRoutes = require('./routes/auth.routes')
+app.use('/api/auth', authRoutes)
 
 const chatRoutes = require('./routes/chat.routes')
 // app.use('/chat', chatRoutes)

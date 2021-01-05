@@ -1,5 +1,6 @@
 
 const { addUser, removeUser, getUser, getUserInRoom, getUsersInRoom } = require('./user.services')
+var cookie = require('cookie');
 
 module.exports = {
   ioHandle: (io) => {
@@ -17,6 +18,7 @@ module.exports = {
         callback()
       })
       socket.on('sendMessage', (message, callback) => {
+        console.log(cookie.parse(socket.request.headers.cookie), message)
         const user = getUser(socket.id)
         io.to(user.room).emit('message', { user: user.name, text: message })
         io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })

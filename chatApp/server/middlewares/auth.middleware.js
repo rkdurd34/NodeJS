@@ -5,8 +5,9 @@ module.exports = {
   checkToken: (req, res, next) => {
     let token = req.get('authorization')
     // req.headers['authorization] 으로 가져오는 방법도 있음
+    token = req.cookies.accessToken
     if (token) {
-      token = token.slice(7)
+      // token = token.slice(7)
       // token = token.split(' ')[1]
       jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err, decoded) => {
         if (err) {
@@ -23,6 +24,7 @@ module.exports = {
           //   message: "Invalid Token"
           // })
         } else {
+          console.log('token 통과~')
           next()
         }
       })
@@ -39,7 +41,7 @@ module.exports = {
       }
       const secret = process.env.ACCESS_SECRET_KEY
       const options = {
-        expiresIn: "15s",
+        expiresIn: "1d",
         issuer: 'kang',
         audience: userId
       }

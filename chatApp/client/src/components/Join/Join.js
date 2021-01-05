@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import api from '../../api'
-import cookie, { useCookies } from 'react-cookies'
 import './Join.css';
+import { useHistory } from "react-router-dom";
 
 export default function SignIn() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [room, setRoom] = useState('');
+  const history = useHistory()
 
+  const handleLogin = (e) => {
 
-  const handleLogin = async (e) => {
-    const result = await api.login({ email: name, password: password })
-    
+    try {
+      const result = api.login({ email: name, password: password })
+      history.push(`/chat?name=${name}&room=${room}`);
+    } catch (err) {
+      alert('잘못된 아이디')
+    }
+
 
   }
   return (

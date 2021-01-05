@@ -12,6 +12,10 @@ module.exports = {
     getUserByUserEmail(body.email, async (err, results) => {
       if (err) {
         console.log(err)
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error"
+        });
       }
       if (!results) {
         return res.status(409).json({
@@ -25,7 +29,7 @@ module.exports = {
         const accessToken = await signAccessToken(req.body.email)
         const refreshToken = await signRefreshToken(req.body.email)
         res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 60 * 60 * 24 * 365 })
-        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 5000 })
+        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 60 * 60 * 24 * 365 })
         return res.json({
           success: 1,
           message: "login successfully",
@@ -86,6 +90,17 @@ module.exports = {
       res.send({ newAccessToken, newRefreshToken })
     } catch (err) {
 
+    }
+  },
+  test: (req, res) => {
+    try {
+      const token = req.cookies
+      console.log(token.accessToken, token.refreshToken)
+      res.status(200).send({
+        token,
+      })
+    } catch (err) {
+      console.log(err)
     }
   }
 
