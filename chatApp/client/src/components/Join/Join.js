@@ -10,10 +10,10 @@ export default function SignIn() {
   const [room, setRoom] = useState('');
   const history = useHistory()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
 
     try {
-      const result = api.login({ email: name, password: password })
+      const result = await api.login({ email: name, password: password })
       history.push(`/chat?name=${name}&room=${room}`);
     } catch (err) {
       alert('잘못된 아이디')

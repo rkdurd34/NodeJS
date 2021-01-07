@@ -5,7 +5,8 @@ const http = require('http');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-
+const ioHandler = require('./socket/chatServer')
+const createError = require('http-errors')
 
 const app = express()
 
@@ -19,15 +20,29 @@ app.use(morgan('dev'))
 
 
 // const io = socketio(server, { path: '/chatSocket' });
-const ioHandler = require('./services/chat.services').ioHandle(socketio(server, { path: '/chatSocket' }))
+ioHandler.ioHandle(socketio(server, { path: '/chatSocket' }))
 
 const authRoutes = require('./routes/auth.routes')
 app.use('/api/auth', authRoutes)
 
-const chatRoutes = require('./routes/chat.routes')
-// app.use('/chat', chatRoutes)
+const authAPIRoutes = require('./routes/authAPI.routes')
+app.use('/authAPI', authAPIRoutes)
 
+app.use((req, res, next) => {
+  next(createError.NotFound('요청하신 페이지를 찾을 수 없습니다.'))
+})
 
+app.use((err, req, res, next) => {
+  console.error(err)
+  res.status(err.status || 500)
+  res.send({
+    error: {
+      status: err.status || 500,
+      message: err.messaage,
+      err
+    }
+  })
+})
 
 const PORT = process.env.PORT || 5000
 server.listen(PORT, () => console.log(`Server on port ${PORT}`))

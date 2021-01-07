@@ -37,7 +37,6 @@ module.exports = {
     })
   },
   register: async (req, res, next) => {
-
     try {
       const body = req.body;
       const salt = genSaltSync(10);

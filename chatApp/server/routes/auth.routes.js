@@ -2,15 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 const authController = require('../controllers/auth.controller');
-const { checkToken } = require('../middlewares/auth.middleware')
+
 router.route('/test')
-  .get(checkToken, authController.test)
+  .get(authController.test)
 router.route('/login')
   .post(authController.login)
 router.route('/logout')
-  .post()
-router.route('/refresh-token')
-  .post(authController.sendNewAccessToken)
+  .delete(authController.logout)
 router.route('/register')
   .post(authController.register)
 

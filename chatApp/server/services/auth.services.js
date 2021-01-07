@@ -1,40 +1,44 @@
 
+const jwt = require('jsonwebtoken')
 const db = require('../database')
-
+require('dotenv').config()
 module.exports = {
-  create: (data, callBack) => {
-    db.query(
-      `insert into registeration (firstName, lastName, gender, email, password, number)
-        values (?,?,?,?,?,?)`,
-      [
-        data.firstName,
-        data.lastName,
-        data.gender,
-        data.email,
-        data.password,
-        data.number
-      ],
-      (error, results, fields) => {
-        if (error) {
-          return callBack(error)
-        }
-        return callBack(null, results)
-      }
-    )
+  signAccessToken: (userId) => {
+    return new Promise((resolve, reject) => {
+      const payload = {
 
-  },
-  getUserByUserEmail: (email, callBack) => {
-    db.query(
-      `select * from registeration where email = ?`,
-      [email],
-      (error, results, field) => {
-        if (error) {
-          callBack(error);
-        }
-        // console.log(results[0].password.toString('utf8'))
-        return callBack(null, results[0])
+        iss: 'kang',
+        aud: userId
       }
-    )
+      const option = {
+        expiresIn: 5,
+      }
+      const secret = process.env.ACCESS_SECRET_KEY
+      jwt.sign(payload, secret, option, (err, token) => {
+        if (err) {
+          return reject(createError.InternalServerError())
+        }
+        resolve(token)
+      })
+    })
   },
+  signRefreshToken: (userId) => {
+    return new Promise((resolve, reject) => {
+      const payload = {
 
+        issuer: 'kang',
+        audience: userId
+      }
+      const option = {
+        expiresIn: 10,
+      }
+      const secret = process.env.REFRESH_SECRET_KEY
+      jwt.sign(payload, secret, option, (err, token) => {
+        if (err) {
+          return reject(createError.InternalServerError())
+        }
+        return resolve(token)
+      })
+    })
+  },
 }
