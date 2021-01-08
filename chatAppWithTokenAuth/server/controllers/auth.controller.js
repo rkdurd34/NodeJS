@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync, compareSync } = require('bcrypt');
-const { signAccessToken, signRefreshToken } = require('../services/auth.services')
+const { signAccessToken, signRefreshToken } = require('../utils/auth.utils')
 
 const createError = require('http-errors');
 const db = require('../database');

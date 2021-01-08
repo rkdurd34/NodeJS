@@ -8,7 +8,7 @@ getProductList = async (req, res) => {
     const [result] = await db.query('select * from products');
     res.status(200).json(result)
   } catch {
-    throw err
+    next(err)
   }
 }
 // @desc Gets specific product
@@ -19,7 +19,7 @@ getProductById = async (req, res) => {
     const [result] = await db.query('select * from products where id = ?', id)
     res.status(200).send(result)
   } catch (err) {
-    throw err
+    next(err)
   }
 }
 // @desc create product
@@ -33,7 +33,7 @@ createProduct = async (req, res) => {
       const [result] = await db.query('insert into products set ?', newProductData)
       res.sendStatus(201)
     } catch (err) {
-      throw err
+      next(err)
     }
   }
 };
@@ -58,7 +58,7 @@ updateProduct = async (req, res) => {
       const [result] = await db.query('UPDATE `products` SET name = ?, description = ?, price = ? WHERE id = ?', [name, description, price, id])
       res.sendStatus(204)
     } catch (err) {
-      throw err
+      next(err)
     }
   }
 };
@@ -71,7 +71,7 @@ deleteProduct = async (req, res) => {
     const [result] = await db.query('delete from products where id = ?', id)
     res.sendStatus(204)
   } catch (err) {
-    throw err
+    next(err)
   }
 };
 // 204는 뒤에 메세지나 개체 없고 200은 개체가 뒤에 있음

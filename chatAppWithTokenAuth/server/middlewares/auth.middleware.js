@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const db = require('../database')
 const createError = require('http-errors')
-const { signAccessToken, signRefreshToken } = require('../services/auth.services')
+const { signAccessToken, signRefreshToken } = require('../utils/auth.utils')
 require('dotenv').config()
 module.exports = {
   verifyAccessToken: async (req, res, next) => {
@@ -31,9 +31,10 @@ module.exports = {
         const [result] = await db.query(`select * from tokens where refresh_token = ?`, [refreshToken],
           (err, fields, result) => {
             if (err) { throw createError.InternalServerError('DB문제') }
+
           })
         if (result.length == 0) {
-          throw createError.Unauthorized('프론트에서 토큰 지워줘야대요ㅠㅠ이렇게 날라오면 디비에서는 토큰 없는 상태로 토큰이 날라오는거임...')
+          throw createError.Unauthorized('프론트에서 토큰 지워줘야대요ㅠㅠ이렇게 날라오면 디비에서는 토큰 없는 상태로 요청이 날라오는거임...')
         }
         const userId = result[0].user_id
         jwt.verify(result[0].refresh_token, process.env.REFRESH_SECRET_KEY, async (err, payload) => {
@@ -57,7 +58,6 @@ module.exports = {
           }
         })
       }
-
     } catch (err) {
       next(err)
     }

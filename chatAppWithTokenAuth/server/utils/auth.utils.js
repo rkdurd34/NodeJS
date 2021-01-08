@@ -6,7 +6,6 @@ module.exports = {
   signAccessToken: (userId) => {
     return new Promise((resolve, reject) => {
       const payload = {
-
         iss: 'kang',
         aud: userId
       }
@@ -25,7 +24,6 @@ module.exports = {
   signRefreshToken: (userId) => {
     return new Promise((resolve, reject) => {
       const payload = {
-
         issuer: 'kang',
         audience: userId
       }
