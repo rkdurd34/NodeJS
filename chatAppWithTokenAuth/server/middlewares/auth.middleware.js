@@ -11,11 +11,11 @@ module.exports = {
       jwt.verify(accessToken, process.env.ACCESS_SECRET_KEY, async (err, decoded) => {
         if (err) {
           req.accessTokenValid = false
-          next()
+
         } else {
           req.accessTokenValid = true
-          next()
         }
+        next()
       })
     } catch (err) {
       next(err)

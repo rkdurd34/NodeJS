@@ -24,7 +24,7 @@ module.exports = {
           await db.query(`INSERT into tokens (refresh_token, user_id) values (?,?)`, [refreshToken, userId])
 
         } else {
-          await db.query(`UPDATE tokens SET refresh_token = ?, user_id = ?`, [refreshToken, userId])
+          await db.query(`UPDATE tokens SET refresh_token = ?, user_id = ? where user_id`, [refreshToken, userId, userHasRefreshToken[0].user_id])
         }
 
         res.cookie('refreshToken', refreshToken, { httpOnly: false, maxAge: 1000 * 60 * 60 * 24 })

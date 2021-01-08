@@ -3,6 +3,7 @@ const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } =
 const db = require('./database')
 
 const server = http.createServer(function (req, res) {
+
   if (req.url === '/api/products' && req.method === "GET") {
     getProducts(req, res)
     //math param 받아오는 방법

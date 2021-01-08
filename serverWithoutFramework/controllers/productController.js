@@ -11,17 +11,6 @@ async function getProducts(req, res) {
   } catch (error) {
     console.log(error)
   }
-  // try {
-  //   let products = ""
-  //   Product.findAll()
-  //     .then(function hooah(result) {
-  //       products = result
-  //       res.writeHead(200, { 'Content-Type': 'application/json' })
-  //       res.end(JSON.stringify(products))
-  //     })
-  // } catch (error) {
-  //   console.log(error)
-  // }
 };
 
 // @desc Gets Single products
@@ -50,13 +39,11 @@ async function createProduct(req, res) {
   try {
     const body = await getPostData(req);
     const { name, description, price } = JSON.parse(body)
-
     const product = {
       name,
       description,
       price
     }
-
     const newProduct = await Product.create(product)
     res.writeHead(201, { 'Content-Type': 'application/json' })
     return res.end(JSON.stringify(newProduct))

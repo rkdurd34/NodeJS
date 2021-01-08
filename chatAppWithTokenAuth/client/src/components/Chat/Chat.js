@@ -28,9 +28,7 @@ const Chat = ({ location }) => {
     socket = io(ENDPOINT, {
       transports: ['websocket'],
       path: '/chatSocket',
-      forceNew: true
     });
-    socket.emit('connection', {})
     setRoom(room);
     setName(name)
     socket.emit('join', { name, room }, () => {
