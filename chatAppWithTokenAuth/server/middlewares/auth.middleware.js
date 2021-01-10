@@ -9,12 +9,7 @@ module.exports = {
       const { accessToken, refreshToken } = req.cookies
       if (!refreshToken && !accessToken) throw createError.Unauthorized('로그인을 새로해주세용 토큰 재발급 해주세용')
       jwt.verify(accessToken, process.env.ACCESS_SECRET_KEY, async (err, decoded) => {
-        if (err) {
-          req.accessTokenValid = false
-
-        } else {
-          req.accessTokenValid = true
-        }
+        (err) ? (req.accessTokenValie = false) : (req.accessTokenValid = true)
         next()
       })
     } catch (err) {

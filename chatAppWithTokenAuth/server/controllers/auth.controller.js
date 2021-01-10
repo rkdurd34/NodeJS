@@ -9,24 +9,18 @@ module.exports = {
   login: async (req, res, next) => {
     try {
       const body = req.body
-
       const [result] = await db.query(`select * from registeration where email = ?`, [body.email])
       const userId = result[0].id
       const accountValid = compareSync(body.password, result[0].password.toString('utf8'))
-
       if (accountValid) {
         const accessToken = await signAccessToken(userId)
         const refreshToken = await signRefreshToken(userId)
-
         const [userHasRefreshToken] = await db.query(`select * from tokens where user_id = ?`, [userId])
-
         if (!userHasRefreshToken[0]) {
           await db.query(`INSERT into tokens (refresh_token, user_id) values (?,?)`, [refreshToken, userId])
-
         } else {
           await db.query(`UPDATE tokens SET refresh_token = ?, user_id = ? where user_id`, [refreshToken, userId, userHasRefreshToken[0].user_id])
         }
-
         res.cookie('refreshToken', refreshToken, { httpOnly: false, maxAge: 1000 * 60 * 60 * 24 })
         res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 1000 * 60 * 60 })
         return res.json({
@@ -46,13 +40,11 @@ module.exports = {
   register: async (req, res, next) => {
     try {
       const data = req.body;
-
       const salt = genSaltSync(10);
       if (!data.email || !data.password || !data.firstName || !data.lastName || !data.number || !data.gender) {
         throw createError.BadRequest("회원가입 형식을 지켜주세요")
       }
       data.password = hashSync(data.password, salt)
-
       const result = await db.query(
         `INSERT INTO REGISTERATION (FIRSTNAME, LASTNAME, GENDER, EMAIL, PASSWORD, NUMBER)
           VALUES (?,?,?,?,?,?)`,
