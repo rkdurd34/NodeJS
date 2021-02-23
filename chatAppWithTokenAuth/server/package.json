@@ -22,6 +22,10 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "pm2": "^4.5.1",
     "socket.io": "^3.0.4",
     "socketio-jwt": "^4.6.2"
