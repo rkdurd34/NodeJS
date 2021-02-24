@@ -22,8 +22,10 @@ app.use(morgan('dev'));
 
 // const io = socketio(server, { path: '/chatSocket' });
 ioHandler.ioHandle(socketio(server, { path: '/chatSocket' }));
+
 app.use(passport.initialize());
 passportConfig();
+
 const authRoutes = require('./routes/auth.routes');
 app.use('/api/auth', authRoutes);
 
@@ -35,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
+  console.log(err);
   res.status(err.status || 500);
   res.send({
     error: {

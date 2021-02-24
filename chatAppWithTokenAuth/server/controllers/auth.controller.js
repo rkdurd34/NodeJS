@@ -99,12 +99,13 @@ module.exports = {
         req.login(user, { session: false }, (loginError) => {
           if (loginError) {
             return res.json(loginError);
-
           }
           const token = jwt.sign(
             { id: user.id },
-            process.env.ACCESS_SECRET_KEY
+            process.env.ACCESS_SECRET_KEY,
+            { expiresIn: "30s" }
           );
+          res.cookie('accessToken', token, { maxAge: 1000 * 60 * 60 });
           res.json({ token });
         });
 
