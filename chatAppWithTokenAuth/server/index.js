@@ -39,13 +39,14 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(err.status || 500);
-  res.send({
-    error: {
-      status: err.status || 500,
-      message: err.messaage,
-      err
-    }
-  });
+  res.send({ err });
+  // res.send({
+  //   // error: {
+  //   //   // status: err.status || 500,
+  //   //   // message: err.messaage,
+  //   //   err
+  //   // }
+  // });
 });
 
 const PORT = process.env.PORT || 5000;

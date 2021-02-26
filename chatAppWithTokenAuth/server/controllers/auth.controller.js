@@ -93,21 +93,38 @@ module.exports = {
   loginWithPassport: async (req, res, next) => {
     try {
       passport.authenticate('local', { session: false }, (passportError, user, info) => {
-        if (passportError || !user) {
-          return res.status(400).json({ message: info.reason });
-        }
-        req.login(user, { session: false }, (loginError) => {
-          if (loginError) {
-            return res.json(loginError);
-          }
-          const token = jwt.sign(
-            { id: user.id },
-            process.env.ACCESS_SECRET_KEY,
-            { expiresIn: "30s" }
-          );
-          res.cookie('accessToken', token, { maxAge: 1000 * 60 * 60 });
-          res.json({ token });
-        });
+        if (passportError || !user) return next({ status: 401, message: info.reason });
+
+        //login()은 굳이 req에다가 필요한 객체르 넣을 필요 없이
+        // passport verify에서 디비 긁은 정보(파라미터 user)를 그대로 객체형태로 req에 저장해줌
+        const accessToken = jwt.sign(
+          { id: user.id },
+          process.env.ACCESS_SECRET_KEY,
+          { expiresIn: "3m" }
+        );
+        const refreshToken = jwt.sign(
+          {},
+          process.env.REFRESH_SECRET_KEY,
+          { expiresIn: "30m" }
+        );
+        res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 60 });
+        res.cookie('refreshToken', refreshToken, { maxAge: 1000 * 60 * 60 });
+        res.json({ token: accessToken });
+
+        // req.login(user, { session: false }, (loginError) => {
+        //   if (loginError) {
+        //     // return res.json(loginError);
+        //     throw createError.Unauthorized('로그인 에러');
+        //   }
+        //   const token = jwt.sign(
+        //     { id: user.id },
+        //     process.env.ACCESS_SECRET_KEY,
+        //     { expiresIn: "30s" }
+        //   );
+        //   console.log('user확인', req.user);
+        //   res.cookie('accessToken', token, { maxAge: 1000 * 60 * 60 });
+        //   res.json({ token });
+        // });
 
       })(req, res);
     } catch (err) {
