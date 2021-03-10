@@ -9,10 +9,10 @@ const { accessTokenAuthenticate, refreshTokenAuthenticate } = require('../passpo
 //   verifyAccessToken,
 //   verifyRefreshToken
 // )
-router.use(
-  accessTokenAuthenticate
-  //  refreshTokenAuthenticate
-);
+// router.use(
+// accessTokenAuthenticate
+//  refreshTokenAuthenticate
+// );
 
 
 router.route('')

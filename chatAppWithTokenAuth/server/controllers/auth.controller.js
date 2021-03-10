@@ -11,7 +11,7 @@ module.exports = {
   login: async (req, res, next) => {
     try {
       const body = req.body;
-      const [result] = await db.query(`select * from registeration where email = ?`, [body.email]);
+      const [result] = await db.query(`select * from users where email = ?`, [body.email]);
       if (result[0].length == 0) {
         throw createError.Unauthorized('이메일이 없습니당ㅠ');
       }
@@ -46,20 +46,19 @@ module.exports = {
     try {
       const data = req.body;
       const salt = genSaltSync(10);
-      if (!data.email || !data.password || !data.firstName || !data.lastName || !data.number || !data.gender) {
+      if (!data.email || !data.password || !data.firstName || !data.lastName || !data.gender) {
         throw createError.BadRequest("회원가입 형식을 지켜주세요");
       }
       data.password = hashSync(data.password, salt);
       const result = await db.query(
-        `INSERT INTO registeration (first_name, last_name, gender, email, password, number)
-          VALUES (?,?,?,?,?,?)`,
+        `INSERT INTO users (first_name, last_name, gender, email, password)
+          VALUES (?,?,?,?,?)`,
         [
           data.firstName,
           data.lastName,
           data.gender,
           data.email,
-          data.password,
-          data.number
+          data.password
         ],
         (err, result) => {
           if (err) {
